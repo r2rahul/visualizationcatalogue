@@ -1,0 +1,39 @@
+---
+title: "Data Visualization Review"
+author: "Rahul"
+date: '2018-02-18'
+output: html_document
+---
+
+```{r setup, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(ggthemes)
+library(rbokeh)
+```
+
+[Perceptual Edge](http://www.perceptualedge.com/example12.php)
+
+```{r data_prep}
+gujrat <- read_csv("gujrat_election_result.csv")
+gujrat <- gujrat %>% arrange(vote_per) %>% mutate(party = factor(party, levels = party))
+```
+
+```{r}
+p <- gujrat %>% ggplot(aes(x = party, y = vote_per)) + geom_bar(stat = 
+                                          "identity", color = "white", fill = "#bdbdbd") + coord_flip()
+
+p <- p + theme_tufte()
+
+p <- p + geom_text(aes(label = paste0(gujrat$vote_per , "%"), hjust = -0.1))
+
+p <- p + scale_y_continuous(expand = c(0.001, 0), limits = c(0, 26))
+
+p <- p + theme(axis.ticks = element_blank())
+
+p <- p + xlab("") + ylab("% vote shares of parties") + 
+      ggtitle("Gujrat 2018 Legistative Election: Partywise % Vote Share")
+
+p
+
+```
+
