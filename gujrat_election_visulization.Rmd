@@ -4,7 +4,7 @@ author: "Rahul"
 date: '2018-02-18'
 output: html_document
 ---
-
+## The Original Chart
 ```{r setup, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(ggthemes)
@@ -12,12 +12,20 @@ library(rbokeh)
 ```
 
 [Perceptual Edge](http://www.perceptualedge.com/example12.php)
+[http://eciresults.nic.in/](http://eciresults.nic.in/)
+
+[['NPF {38.8%,389912}',389912],['NDPP {25.2%,253090}',253090],['BJP {15.3%,153864}',153864],['NPEP {6.9%,69506}',69506],['JD(U) {4.5%,45089}',45089],['IND {4.3%,43008}',43008],['INC {2.1%,20752}',20752],['NCP {1.1%,10693}',10693],['AAAP {0.7%,7491}',7491],['LJP {0.3%,2765}',2765],['npp {0.2%,1997}',1997],['NOTA {0.6%,5724}',5724]]
 
 ```{r data_prep}
 gujrat <- read_csv("gujrat_election_result.csv")
 gujrat <- gujrat %>% arrange(vote_per) %>% mutate(party = factor(party, levels = party))
 ```
 
+```{r}
+gujrat <- gujrat %>% mutate(new_per = (vote_val / sum(vote_val))*100)
+```
+
+## The Analysis of Chart
 ```{r}
 p <- gujrat %>% ggplot(aes(x = party, y = vote_per)) + geom_bar(stat = 
                                           "identity", color = "white", fill = "#bdbdbd") + coord_flip()
@@ -37,3 +45,4 @@ p
 
 ```
 
+## The Redesigned Chart
